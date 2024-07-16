@@ -8,6 +8,7 @@ import com.futureus.cameraxapp.ui.theme.CameraXAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
         if (!arePermissionsGranted()) {
             ActivityCompat.requestPermissions(this, CAMERA_PERMISSION, 0)
         }
+        requestNotificationPermission()
 
         enableEdgeToEdge()
         setContent {
@@ -60,6 +62,24 @@ class MainActivity : ComponentActivity() {
                 applicationContext,
                 permission
             ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+
+    private fun requestNotificationPermission() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if(!hasPermission) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
+            }
         }
     }
 

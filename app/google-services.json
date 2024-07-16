@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72724982564",
+    "project_id": "futurefromme-b1552",
+    "storage_bucket": "futurefromme-b1552.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72724982564:android:05a83493dfc3c7926161b1",
+        "android_client_info": {
+          "package_name": "com.futureus.cameraxapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAzbU5A3SbA4_WxsANMo6QJdXyUAhucC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

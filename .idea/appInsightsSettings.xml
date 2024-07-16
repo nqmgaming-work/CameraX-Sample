@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.futureus.cameraxapp" />
+                  <option name="mobileSdkAppId" value="1:72724982564:android:05a83493dfc3c7926161b1" />
+                  <option name="projectId" value="futurefromme-b1552" />
+                  <option name="projectNumber" value="72724982564" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

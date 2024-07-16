@@ -149,7 +149,8 @@ class CameraRepositoryImpl @Inject constructor(
 
             val imageDto = ImageDto(
                 image = byteArray,
-                fileName = "${timeInMillis}_image.jpg"
+                fileName = "${timeInMillis}_image.jpg",
+                uri = imageMediaStoreUri.toString()
             )
             imageDto
         }
@@ -189,7 +190,8 @@ class CameraRepositoryImpl @Inject constructor(
                                         saveVideo(file)
                                         val videoDto = VideoDto(
                                             video = file.readBytes(),
-                                            fileName = file.name
+                                            fileName = file.name,
+                                            uri = file.absolutePath
                                         )
                                         continuation.resume(videoDto)
                                     } catch (e: Exception) {

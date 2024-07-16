@@ -34,7 +34,7 @@ class CameraViewModel @Inject constructor(
     private val _imageDto = MutableStateFlow<ImageDto?>(null)
     val imageDto = _imageDto.asStateFlow()
 
-    private val _imageLink = MutableStateFlow<String?>(null)
+    private val _imageLink = MutableStateFlow<ImageDto?>(null)
     val imageLink = _imageLink.asStateFlow()
 
     private val _videoDto = MutableStateFlow<VideoDto?>(null)
@@ -61,14 +61,14 @@ class CameraViewModel @Inject constructor(
             _isTakingPhoto.update { false }
 
             // upload image to supabase
-            _imageDto.value?.let {
-                viewModelScope.launch {
-                    _imageLink.update {
-                        imageRepository.uploadImage(imageDto = _imageDto.value!!)
-                    }
-                    Log.d("CameraViewModel", "Image Link: ${imageLink.value}")
-                }
-            }
+//            _imageDto.value?.let {
+//                viewModelScope.launch {
+//                    _imageLink.update {
+//                        imageRepository.uploadImage(imageDto = _imageDto.value!!)
+//                    }
+//                    Log.d("CameraViewModel", "Image Link: ${imageLink.value}")
+//                }
+//            }
 
         }
     }
@@ -85,14 +85,14 @@ class CameraViewModel @Inject constructor(
                 cameraRepository.recordVideo(controller)
             }
             // upload video to supabase
-            _videoDto.value?.let {
-                viewModelScope.launch {
-                    _videoLink.update {
-                        videoRepository.uploadVideo(videoDto = _videoDto.value!!)
-                    }
-                    Log.d("CameraViewModel", "Video Link: ${videoLink.value}")
-                }
-            }
+//            _videoDto.value?.let {
+//                viewModelScope.launch {
+//                    _videoLink.update {
+//                        videoRepository.uploadVideo(videoDto = _videoDto.value!!)
+//                    }
+//                    Log.d("CameraViewModel", "Video Link: ${videoLink.value}")
+//                }
+//            }
 
         }
     }

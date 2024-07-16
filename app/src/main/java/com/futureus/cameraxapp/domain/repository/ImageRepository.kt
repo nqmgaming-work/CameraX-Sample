@@ -5,5 +5,5 @@ import com.futureus.cameraxapp.data.dto.ImageDto
 interface ImageRepository {
     suspend fun uploadImage(
         imageDto: ImageDto
-    ): String
+    ): ImageDto
 }

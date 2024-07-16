@@ -6,6 +6,8 @@ import io.github.jan.supabase.storage.Storage
 import io.github.jan.supabase.storage.UploadStatus
 import io.github.jan.supabase.storage.uploadAsFlow
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 class VideoRepositoryImpl @Inject constructor(
@@ -26,7 +28,7 @@ class VideoRepositoryImpl @Inject constructor(
                 }
             }
 
-            val url = videoUrl.createSignedUrl(path = videoDto.fileName, expiresIn = 1000.minutes)
+            val url = videoUrl.createSignedUrl(path = videoDto.fileName, 1.days)
 
             println("Video URL: $url")
 

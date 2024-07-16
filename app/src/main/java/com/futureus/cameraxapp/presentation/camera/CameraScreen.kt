@@ -71,7 +71,7 @@ fun CameraScreen(
 
     val cameraViewModel = hiltViewModel<CameraViewModel>()
     val isRecording by cameraViewModel.isRecording.collectAsState()
-    val videoDto by cameraViewModel.videoLink.collectAsState()
+    val videoDto by cameraViewModel.videoDto.collectAsState()
 
     LaunchedEffect(videoDto) {
         if (videoDto != null) {

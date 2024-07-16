@@ -11,12 +11,12 @@ import io.github.jan.supabase.storage.uploadAsFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 
 class ImageRepositoryImpl @Inject constructor(
-    private val postgrest: Postgrest,
     private val storage: Storage
 ) : ImageRepository {
-    override suspend fun uploadImage(imageDto: ImageDto): String {
+    override suspend fun uploadImage(imageDto: ImageDto): ImageDto {
         withContext(Dispatchers.IO){
             if (imageDto.image.isNotEmpty()){
                 val imageUrl = storage.from("image")
@@ -31,18 +31,14 @@ class ImageRepositoryImpl @Inject constructor(
                     }
                 }
 
+                val url = imageUrl.createSignedUrl(path = imageDto.fileName, 1.days)
 
-                return@withContext buildImageUrl(imageDto.fileName)
+                val imageWithUri = imageDto.copy(uri = url)
             } else {
                 throw IllegalArgumentException("Image is empty")
             }
         }
 
-        return ""
+        return imageDto
     }
-
-    // Because I named the bucket as "Product Image" so when it turns to an url, it is "%20"
-    // For better approach, you should create your bucket name without space symbol
-    private fun buildImageUrl(imageFileName: String) =
-        "${BuildConfig.SUPABASE_URL}/storage/v1/object/public/${imageFileName}".replace(" ", "%20")
 }
