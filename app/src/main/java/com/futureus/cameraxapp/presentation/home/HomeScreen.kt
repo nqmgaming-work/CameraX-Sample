@@ -60,94 +60,97 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         val state = viewModel.state
-        if(state.isEnteringToken) {
-            EnterTokenDialog(
-                token = state.remoteToken,
-                onTokenChange = viewModel::onRemoteTokenChange,
-                onSubmit = viewModel::onSubmitRemoteToken
-            )
-        } else {
-            ChatScreen(
-                messageText = state.messageText,
-                onMessageSend = {
-                    viewModel.sendMessage(isBroadcast = false)
-                },
-                onMessageBroadcast = {
-                    viewModel.sendMessage(isBroadcast = true)
-                },
-                onMessageChange = viewModel::onMessageChange
-            )
+//        if(state.isEnteringToken) {
+//            EnterTokenDialog(
+//                token = state.remoteToken,
+//                onTokenChange = viewModel::onRemoteTokenChange,
+//                onSubmit = viewModel::onSubmitRemoteToken
+//            )
+//        } else {
+//            ChatScreen(
+//                messageText = state.messageText,
+//                onMessageSend = {
+//                    viewModel.sendMessage(isBroadcast = false)
+//                },
+//                onMessageBroadcast = {
+//                    viewModel.sendMessage(isBroadcast = true)
+//                },
+//                onMessageChange = viewModel::onMessageChange
+//            )
+//        }
+//    }
+
+        val context = LocalContext.current
+
+
+        var videoLink by remember {
+            mutableStateOf("")
+        }
+
+        Column(
+            modifier = modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            videoDto.onNavResult { result ->
+                when (result) {
+                    NavResult.Canceled -> Log.d("HomeScreen", "Canceled")
+                    is NavResult.Value -> {
+                        Log.d("HomeScreen", "Value: ${result.value}")
+                        videoLink = result.value
+                    }
+                }
+
+            }
+
+            if (videoLink.isNotEmpty()) {
+                AndroidView(
+                    factory = { context ->
+                        PlayerView(context).apply {
+                            player = ExoPlayer.Builder(context).build().apply {
+                                val mediaItem = MediaItem.fromUri(videoLink)
+                                val mediaSource: MediaSource =
+                                    ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
+                                        .createMediaSource(mediaItem)
+                                setMediaSource(mediaSource)
+                                prepare()
+                                playWhenReady = true
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9),
+                    update = { playerView ->
+                        playerView.player = ExoPlayer.Builder(context).build().apply {
+                            val mediaItem = MediaItem.fromUri(videoLink)
+//                        val mediaSource: MediaSource = ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
+//                            .createMediaSource(mediaItem)
+//                        val mediaSource: MediaSource = HlsMediaSource
+//                            .Factory(DefaultHttpDataSource.Factory())
+//                            .createMediaSource(mediaItem)
+                            val mediaSource: MediaSource =
+                                ProgressiveMediaSource.Factory(FileDataSource.Factory())
+                                    .createMediaSource(mediaItem)
+                            setMediaSource(mediaSource)
+                            prepare()
+                            playWhenReady = true
+                        }
+                    }
+                )
+            }
+
+            Button(
+                onClick = {
+//                navigator.navigate(
+//
+//                    CameraScreenDestination
+//                )
+                    throw RuntimeException("Test Crash")
+                }
+            ) {
+                Text("Camera")
+            }
         }
     }
 }
-
-//    val context = LocalContext.current
-//
-//
-//    var videoLink by remember {
-//        mutableStateOf("")
-//    }
-//
-//    Column(
-//        modifier = modifier.fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//        videoDto.onNavResult { result ->
-//            when (result) {
-//                NavResult.Canceled -> Log.d("HomeScreen", "Canceled")
-//                is NavResult.Value -> {
-//                    Log.d("HomeScreen", "Value: ${result.value}")
-//                    videoLink = result.value
-//                }
-//            }
-//
-//        }
-//
-//        if (videoLink.isNotEmpty()) {
-//            AndroidView(
-//                factory = { context ->
-//                    PlayerView(context).apply {
-//                        player = ExoPlayer.Builder(context).build().apply {
-//                            val mediaItem = MediaItem.fromUri(videoLink)
-//                            val mediaSource: MediaSource =
-//                                ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
-//                                    .createMediaSource(mediaItem)
-//                            setMediaSource(mediaSource)
-//                            prepare()
-//                            playWhenReady = true
-//                        }
-//                    }
-//                },
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .aspectRatio(16f / 9),
-//                update = { playerView ->
-//                    playerView.player = ExoPlayer.Builder(context).build().apply {
-//                        val mediaItem = MediaItem.fromUri(videoLink)
-////                        val mediaSource: MediaSource = ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
-////                            .createMediaSource(mediaItem)
-////                        val mediaSource: MediaSource = HlsMediaSource
-////                            .Factory(DefaultHttpDataSource.Factory())
-////                            .createMediaSource(mediaItem)
-//                        val mediaSource: MediaSource = ProgressiveMediaSource.Factory(FileDataSource.Factory())
-//                            .createMediaSource(mediaItem)
-//                        setMediaSource(mediaSource)
-//                        prepare()
-//                        playWhenReady = true
-//                    }
-//                }
-//            )
-//        }
-//
-//        Button(
-//            onClick = {
-//                navigator.navigate(
-//                    CameraScreenDestination
-//                )
-//            }
-//        ) {
-//            Text("Camera")
-//        }
-//    }
-//}

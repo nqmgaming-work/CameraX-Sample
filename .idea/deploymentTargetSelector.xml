@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-07-16T12:34:20.539088Z">
+        <DropdownSelection timestamp="2024-07-16T16:35:35.663852Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/nqmgaming/.android/avd/Develop.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/nqmgaming/.android/avd/Hack_Network.avd" />
             </handle>
           </Target>
         </DropdownSelection>
